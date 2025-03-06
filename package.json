@@ -1,0 +1,32 @@
+{
+  "name": "nexa-agents-server",
+  "version": "1.0.0",
+  "description": "Backend server for Nexa Agents",
+  "type": "module",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src/index.js",
+    "dev": "nodemon --watch src --trace-warnings src/index.js",
+    "clean": "rm -rf node_modules && npm install"
+  },
+  "dependencies": {
+    "axios": "^1.8.1",
+    "body-parser": "2.1.0",
+    "chart.js": "^4.4.1",
+    "cors": "^2.8.5",
+    "diskusage": "^1.2.0",
+    "dotenv": "^16.3.1",
+    "express": "^5.0.1",
+    "express-rate-limit": "^7.1.5",
+    "glob": "11.0.1",
+    "morgan": "^1.10.0",
+    "node-fetch": "3.3.2",
+    "socket.io": "^4.7.4",
+    "systeminformation": "^5.25.11",
+    "uuid": "^11.1.0",
+    "winston": "^3.17.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.9"
+  }
+}

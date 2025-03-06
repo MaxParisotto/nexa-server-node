@@ -1,0 +1,28 @@
+{
+  "threshold": 50,
+  "reporters": ["console", "json"],
+  "output": "./reports/jscpd",
+  "absolute": true,
+  "ignore": [
+    "**/node_modules/**",
+    "**/test/**",
+    "**/tests/**",
+    "**/dist/**",
+    "**/build/**",
+    "**/coverage/**",
+    "**/public/**",
+    "**/data/**",
+    "**/*.spec.js",
+    "**/*.test.js",
+    "**/*.md",
+    "**/*.json"
+  ],
+  "format": [
+    "javascript",
+    "typescript"
+  ],
+  "minLines": 5,
+  "minTokens": 30,
+  "blame": true,
+  "gitignore": true
+}
