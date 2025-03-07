@@ -151,6 +151,10 @@ class NetworkMetrics {
     reset() {
         this.metrics = new NetworkMetrics().metrics;
     }
+
+    initialize() {
+        logger.info('NetworkMetrics initialized');
+    }
 }
 
 export default new NetworkMetrics();

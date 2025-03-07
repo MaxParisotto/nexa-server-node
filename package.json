@@ -1,32 +1,36 @@
 {
-  "name": "nexa-agents-server",
+  "name": "nexa-core-server",
   "version": "1.0.0",
-  "description": "Backend server for Nexa Agents",
+  "description": "Nexa Core Dashboard Server",
   "type": "module",
-  "main": "src/index.js",
+  "main": "start.js",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon --watch src --trace-warnings src/index.js",
+    "start": "node start.js",
+    "dev": "DEBUG=* node start.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
     "clean": "rm -rf node_modules && npm install"
   },
   "dependencies": {
-    "axios": "^1.8.1",
+    "axios": "1.8.2",
     "body-parser": "2.1.0",
-    "chart.js": "^4.4.1",
+    "chart.js": "^4.4.8",
     "cors": "^2.8.5",
+    "debug": "^4.3.4",
     "diskusage": "^1.2.0",
     "dotenv": "^16.3.1",
-    "express": "^5.0.1",
+    "express": "5.0.1",
     "express-rate-limit": "^7.1.5",
     "glob": "11.0.1",
     "morgan": "^1.10.0",
     "node-fetch": "3.3.2",
-    "socket.io": "^4.7.4",
+    "socket.io": "^4.7.2",
     "systeminformation": "^5.25.11",
     "uuid": "^11.1.0",
-    "winston": "^3.17.0"
+    "winston": "^3.17.0",
+    "winston-daily-rotate-file": "^5.0.0"
   },
   "devDependencies": {
+    "@types/express": "^5.0.0",
     "nodemon": "^3.1.9"
   }
 }

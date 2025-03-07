@@ -125,7 +125,7 @@ router.post('/defaults', (req, res, next) => {
     process.env.ENABLE_VOICE_INPUT = 'false';
     
     const systemConfig = {
-      PORT: 3000,
+      PORT: 3001,
       HOST: '0.0.0.0',
       NODE_ENV: 'development',
       API_TIMEOUT: 30000,

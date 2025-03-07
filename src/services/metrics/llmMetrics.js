@@ -22,22 +22,6 @@ class LLMMetrics {
     this.initializeModelPricing();
   }
 
-  initializeModelPricing() {
-    // Get initial pricing from config service - not available
-    // const pricing = await config.getConfig('llm-pricing') || {};
-    // this.updateModelPricing(pricing);
-
-    // Watch for pricing updates - not available
-    // config.watch('llm-pricing', (newPricing) => {
-    //   this.updateModelPricing(newPricing);
-    //   logger.info('LLM pricing updated:', newPricing);
-    // });
-
-    // Placeholder for default pricing.  Replace with actual values.
-    this.modelPricing.set('gpt-3.5-turbo', { input: 0.0015, output: 0.002 });
-    this.modelPricing.set('gpt-4', { input: 0.03, output: 0.06 });
-  }
-
   updateModelPricing(pricing) {
     this.modelPricing.clear();
     Object.entries(pricing).forEach(([model, rates]) => {
@@ -112,10 +96,8 @@ class LLMMetrics {
   calculateCost(model, inputTokens, outputTokens) {
     const pricing = this.modelPricing.get(model);
     if (!pricing) {
-    //   logger.warn(`No pricing information for model ${model}, using default rates`);
-      return this.calculateCost('gpt-3.5-turbo', inputTokens, outputTokens);
+      throw new Error(`Pricing not found for model ${model}`);
     }
-
     const inputCost = (inputTokens / 1000) * pricing.input;
     const outputCost = (outputTokens / 1000) * pricing.output;
     return inputCost + outputCost;
@@ -178,4 +160,4 @@ class LLMMetrics {
   }
 }
 
-export default new LLMMetrics();
+export default LLMMetrics;

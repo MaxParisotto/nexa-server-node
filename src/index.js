@@ -16,6 +16,27 @@ try {
   const app = express();
   const server = http.createServer(app);
 
+// Initialize real-time logging via Socket.IO
+const io = new Server(server, {
+  cors: { origin: '*' },
+  transports: ['polling', 'websocket']
+});
+
+io.on('connection', (socket) => {
+  console.log('Client connected to logs');
+  
+  // Send initial log update on connection
+  socket.emit('log_update', { message: 'Connected to real-time logging' });
+
+  // Join all clients to the logs channel
+  socket.join('logs_channel');
+
+  // Handle disconnections
+  socket.on('disconnect', () => {
+    console.log('Client disconnected from logs');
+  });
+});
+
   // Initialize services first for dependency resolution
   services.init();
   
@@ -45,16 +66,12 @@ try {
     res.status(500).json({ error: 'Internal server error' });
   });
 
-  // Socket.IO setup with metrics
-  const io = new Server(server, {
-    cors: { origin: "*" },
-    transports: ['polling', 'websocket']
-  });
+  // Socket.IO metrics setup using the existing io instance
 
   // Initialize unified metrics service
   try {
     // Use dynamic import for CommonJS modules
-    const metricsServiceModule = await import('./services/metrics/MetricsService.js');
+    const metricsServiceModule = await import('./services/metrics/index.js');
     const metricsService = metricsServiceModule.default;
     if (metricsService && typeof metricsService.init === 'function') {
       metricsService.init(io);

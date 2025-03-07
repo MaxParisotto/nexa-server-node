@@ -30,31 +30,40 @@ class LogViewer {
 
     render() {
         this.container.innerHTML = `
-            <div class="log-viewer">
+            <div class="log-viewer container mt-4 p-3 bg-light rounded shadow-sm">
                 <div class="log-controls">
-                    <button class="btn primary" onclick="window.logViewer.initializeLogs()">
+                    <button class="btn btn-primary me-2" onclick="window.logViewer.initializeLogs()">
+                    Initialize Test Logs
+                </button>
+                <div class="log-type-selector d-flex gap-2">
                         Initialize Test Logs
                     </button>
                     <div class="log-type-selector">
                         ${this.logTypes.map(type => `
-                            <button class="btn ${type === this.currentType ? 'active' : ''}"
+                            <button class="btn btn-outline-secondary ${type === this.currentType ? 'active' : ''}"
                                     data-type="${type}">
                                 ${type.charAt(0).toUpperCase() + type.slice(1)} Logs
                             </button>
                         `).join('')}
                     </div>
-                    <div class="log-filters">
-                        <select id="levelFilter">
-                            <option value="all">All Levels</option>
-                            <option value="error">Error</option>
-                            <option value="warn">Warning</option>
-                            <option value="info">Info</option>
-                            <option value="debug">Debug</option>
-                        </select>
+                    <div class="log-filters mt-3">
+                        <div class="mb-3">
+                            <label for="levelFilter" class="form-label">Log Level:</label>
+                            <select id="levelFilter" class="form-select">
+                                <option value="all">All Levels</option>
+                                <option value="error">Error</option>
+                                <option value="warn">Warning</option>
+                                <option value="info">Info</option>
+                                <option value="debug">Debug</option>
+                            </select>
+                        </div>
                         <select id="serviceFilter">
                             <option value="all">All Services</option>
                         </select>
-                        <input type="text" id="searchFilter" placeholder="Search logs...">
+                        <div class="mb-3">
+                        <label for="searchFilter" class="form-label">Search:</label>
+                        <input type="text" id="searchFilter" class="form-control" placeholder="Search logs..." />
+                    </div>
                     </div>
                 </div>
                 <div class="log-table-container">
@@ -73,11 +82,17 @@ class LogViewer {
                         </tbody>
                     </table>
                 </div>
-                <div class="log-pagination">
-                    <button id="prevPage">Previous</button>
-                    <span id="pageInfo">Page 1</span>
-                    <button id="nextPage">Next</button>
-                </div>
+                <nav aria-label="Log pagination" class="mt-3">
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item ${this.currentPage === 1 ? 'disabled' : ''}">
+                            <button class="page-link" id="prevPage">Previous</button>
+                        </li>
+                        <li class="page-item disabled"><span class="page-link" id="pageInfo">Page 1</span></li>
+                        <li class="page-item">
+                            <button class="page-link" id="nextPage">Next</button>
+                        </li>
+                    </ul>
+                </nav>
                 <div class="log-stats">
                     <div id="logStats"></div>
                 </div>
@@ -218,18 +233,24 @@ class LogViewer {
         nextButton.disabled = this.currentPage === totalPages;
     }
 
-    toggleMetadata(metadata) {
-        const modal = document.createElement('div');
-        modal.className = 'log-metadata-modal';
-        modal.innerHTML = `
-            <div class="modal-content">
-                <h3>Log Metadata</h3>
-                <pre>${JSON.stringify(metadata, null, 2)}</pre>
-                <button onclick="this.closest('.log-metadata-modal').remove()">Close</button>
-            </div>
-        `;
-        document.body.appendChild(modal);
-    }
+            toggleMetadata(metadata) {
+                const modal = document.createElement('div');
+                modal.className = 'modal';
+                modal.innerHTML = `
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Log Metadata</h5>
+                                <button type="button" class="btn-close" onclick="this.closest('.modal').remove()"></button>
+                            </div>
+                            <div class="modal-body">
+                                <pre>${JSON.stringify(metadata, null, 2)}</pre>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                document.body.appendChild(modal);
+            }
 
     formatDate(timestamp) {
         return new Date(timestamp).toLocaleString();
